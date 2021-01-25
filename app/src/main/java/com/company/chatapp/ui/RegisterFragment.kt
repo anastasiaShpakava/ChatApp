@@ -1,13 +1,19 @@
 package com.company.chatapp.ui
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.Fragment
 import com.company.chatapp.R
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,10 +30,17 @@ class RegisterFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var auth: FirebaseAuth
+    private val reference: DatabaseReference? = null
+
     private var username: EditText? = null
     private var email: EditText? = null
     private var password: EditText? = null
     private var button_register: Button? = null
+
+    var txt_username: String? = null
+    var txt_email: String? = null
+    var txt_password: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +60,57 @@ class RegisterFragment : Fragment() {
         email = view.findViewById(R.id.editTextEmail)
         password = view.findViewById(R.id.editTextPassword)
         button_register = view.findViewById(R.id.buttonRegister)
+
+        button_register?.setOnClickListener {
+            txt_username = username?.text.toString()
+            txt_email = email?.text.toString()
+            txt_password = password?.text.toString()
+        }
+        auth = FirebaseAuth.getInstance()
+
         return view
+    }
+
+
+    private fun register(userName:String, password:String, email:String){
+        auth?.createUserWithEmailAndPassword(email, password).addOnCompleteListener(OnCompleteListener {
+
+        })
+    }
+    private fun createAccount(email: String) {
+        Log.d(TAG, "createAccount:$email")
+        if (!validate()) {
+            return
+        }
+    }
+
+    private fun validate(): Boolean {
+        var valid: Boolean = true
+
+        if (txt_username?.isEmpty() == true || txt_username?.length!! < 3) {
+            username?.setError("at least 3 characters")
+            valid = false
+        } else {
+            username?.setError(null)
+        }
+
+        if (txt_password?.isEmpty() == true || txt_password?.length!! < 4
+                || txt_password?.length!! > 10) {
+            password?.setError("between 4 and 10 alphanumeric characters")
+            valid = false
+        } else {
+            password?.setError(null)
+        }
+
+        if (txt_email?.isEmpty() == true || android.util.Patterns.EMAIL_ADDRESS.matcher(txt_email).matches()) {
+            email?.setError("enter a valid email address")
+            valid = false
+        } else {
+            email?.setError(null)
+        }
+
+        return valid
+
     }
 
     companion object {
