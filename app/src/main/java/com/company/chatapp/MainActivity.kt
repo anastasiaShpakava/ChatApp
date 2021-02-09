@@ -6,7 +6,7 @@ import android.view.WindowManager
 import com.company.chatapp.ui.RegisterFragment
 
 class MainActivity : AppCompatActivity() {
-    private var registerFragment: RegisterFragment? = RegisterFragment.newInstance("", "")
+    private var registerFragment: RegisterFragment? = RegisterFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
