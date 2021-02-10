@@ -48,4 +48,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.2'
     implementation 'com.google.firebase:firebase-core:18.0.1'
     implementation 'com.google.firebase:firebase-database:19.6.0'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.activity:activity-ktx:1.1.0"
 }

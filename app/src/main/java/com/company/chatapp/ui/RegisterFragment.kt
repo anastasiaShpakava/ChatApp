@@ -1,19 +1,18 @@
 package com.company.chatapp.ui
 
-import android.content.ContentValues.TAG
+
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.company.chatapp.MainActivity
 import com.company.chatapp.R
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -27,6 +26,7 @@ class RegisterFragment : Fragment() {
     private var email: EditText? = null
     private var password: EditText? = null
     private var button_register: Button? = null
+    private var toolbar: Toolbar? = null
 
     private var txtUsername: String? = null
     private var txtEmail: String? = null
@@ -42,6 +42,12 @@ class RegisterFragment : Fragment() {
         password = view.findViewById(R.id.editTextPassword)
         button_register = view.findViewById(R.id.buttonRegister)
 
+        toolbar = view.findViewById(R.id.toolbar)
+        activity?.setActionBar(toolbar)
+        activity?.setTitle("Registration")
+
+        auth = FirebaseAuth.getInstance()
+
         button_register?.setOnClickListener {
             txtUsername = username?.text.toString()
             txtEmail = email?.text.toString()
@@ -52,16 +58,15 @@ class RegisterFragment : Fragment() {
                 Toast.makeText((activity as MainActivity), "Password must be ar least 6 characters", Toast.LENGTH_LONG).show()
 
             } else {
-                register(txtUsername!!, txtPassword!!, txtEmail!!)
+                register(txtPassword!!, txtEmail!!)
             }
         }
-        auth = FirebaseAuth.getInstance()
 
         return view
     }
 
 
-    private fun register(userName: String, password: String, email: String) {
+    private fun register(password: String, email: String) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener((activity as MainActivity)) { task ->
             if (task.isSuccessful) {
                 val user = auth.currentUser
