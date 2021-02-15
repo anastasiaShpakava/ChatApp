@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toolbar
+import androidx.navigation.fragment.findNavController
 import com.company.chatapp.MainActivity
 import com.company.chatapp.R
 import com.google.android.gms.tasks.OnCompleteListener
@@ -60,7 +61,7 @@ class LoginFragment : Fragment() {
                 Toast.makeText((activity as MainActivity), "Password must be ar least 6 characters", Toast.LENGTH_LONG).show()
 
             } else {
-                sign( txtPassword!!, txtEmail!!)
+               sign( txtPassword!!, txtEmail!!)
             }
         }
 
@@ -70,8 +71,8 @@ class LoginFragment : Fragment() {
     private fun sign(password: String, email: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.frameLayout, SecondFragment())?.commit()
+                val navController = findNavController()
+                navController.navigate(R.id.secondFragment)
             }else{
                 Toast.makeText(context, "Authentication is failed", Toast.LENGTH_LONG).show()
             }

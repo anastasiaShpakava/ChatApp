@@ -3,6 +3,7 @@ package com.company.chatapp.ui
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.company.chatapp.MainActivity
@@ -19,7 +20,7 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen)
         progressBarLoading = findViewById(R.id.loadingProgress)
-        mDelayHandler = Handler()
+        mDelayHandler = Handler(Looper.myLooper()!!)
         //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
     }

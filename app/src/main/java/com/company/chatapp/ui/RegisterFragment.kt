@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.company.chatapp.MainActivity
 import com.company.chatapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -75,8 +76,8 @@ class RegisterFragment : Fragment() {
                 val map = mapOf("id" to userId, "username" to username.toString(), "imageURL" to "default")
                 reference?.setValue(map)?.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        activity?.supportFragmentManager?.beginTransaction()
-                                ?.replace(R.id.frameLayout, SecondFragment())?.commit()
+                        val navController = findNavController()
+                        navController.navigate(R.id.secondFragment)
                     }
                 }
             } else {
