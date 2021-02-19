@@ -9,5 +9,8 @@
         <item name="android:typeface">sans</item>
         <item name="android:textSize">100px</item>
     </style>
+    <style name="MenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:background">@android:color/white</item>
 
+    </style>
 </resources>
