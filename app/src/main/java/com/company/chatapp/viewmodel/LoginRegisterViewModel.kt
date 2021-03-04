@@ -15,4 +15,7 @@ class LoginRegisterViewModel(application: Application) : AndroidViewModel(applic
      fun register(password: String, email: String){
         firebaseRepository.register(password,email)
     }
+    fun login(password: String, email: String){
+        firebaseRepository.login(password,email)
+    }
 }

@@ -45,7 +45,7 @@ class MainFragment : Fragment() {
         firebaseUser = FirebaseAuth.getInstance().currentUser
         if (firebaseUser != null) {
             val navController = findNavController()
-            navController.navigate(R.id.currentUserActivity)
+            navController.navigate(R.id.currentUserFragment)
 
         }
     }

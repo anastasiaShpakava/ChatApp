@@ -15,8 +15,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.observe
+import androidx.navigation.Navigation
+
 import com.company.chatapp.MainActivity
 import com.company.chatapp.R
 import com.company.chatapp.viewmodel.LoginRegisterViewModel
@@ -45,14 +47,14 @@ class RegisterFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_register, container, false)
 
-        loginRegisterViewModel = ViewModelProvider(this).get(LoginRegisterViewModel::class.java)
-        loginRegisterViewModel?.mutableLiveData?.observe(viewLifecycleOwner, { t ->
+        loginRegisterViewModel = ViewModelProviders.of(this).get(LoginRegisterViewModel::class.java)
+        loginRegisterViewModel?.mutableLiveData?.observe(viewLifecycleOwner) { t ->
             if (t!=null){
-                Toast.makeText((activity as MainActivity), "User created", Toast.LENGTH_LONG).show()
+                getView()?.let { Navigation.findNavController(it).navigate(R.id.action_registerFragment_to_currentUserFragment) }
             }
-        })
+        }
 
-auth = FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
         username = view.findViewById(R.id.editTextUsername)
         email = view.findViewById(R.id.editTextEmail)
         password = view.findViewById(R.id.editTextPassword)
@@ -82,8 +84,7 @@ auth = FirebaseAuth.getInstance()
   //              reference?.setValue(map)?.addOnCompleteListener { task ->
  //                   if (task.isSuccessful) {
 
-                        val navController = findNavController()
-                        navController.navigate(R.id.secondFragment)
+
 
   //                  }
                 }
